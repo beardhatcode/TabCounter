@@ -11,10 +11,6 @@ bg.BadgeIt();
 bg = bg.localStorage;
 $(".tabcount.NowOpened").html(bg.NowOpenedTabs);
 
-if(bg.BeforeOpenedTabs>999999){
-$(".tabcount.tabs_since_instal").html('<span id="tabcount_content_3" class="tabcount BeforeOpened">?</span><br/>tabs opened since Install');
-}
-
 $(".tabcount.BeforeOpened").html(parseInt(bg.BeforeOpenedTabs));	
 $(".tabcount.ResetSOpened").html(parseInt(bg.ResetSOpenedTabs));
 $(".tabcount.HeaderOpened").html(parseInt(eval("bg."+bg.ShowInBadgeValue)));
