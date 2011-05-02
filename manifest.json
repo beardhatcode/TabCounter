@@ -1,0 +1,16 @@
+{
+   "background_page": "background.html",
+   "browser_action": {
+      "default_icon": "icon.png",
+      "popup": "main.html"
+   },
+   "description": "The tab counting extention that allows you to set goals and shows you tab statistics.",
+   "icons": {
+      "128": "icon_128.png"
+   },
+   "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDEujs8D24Eq/zRg4odd04vSTNcbJ7s5R7VgJGAgrkIgmjMhm+jfAbXun8sxlM4cG8FQwpGyqLrJxHQXzQicDT+YZYMhDpl1wLlCUBzBqtwI0FDG9aUaMlzTd8u0WlPqCSjmsOSGCfaRCiaorFkKO/HYryeegDJSy7AsaThz8d2TwIDAQAB",
+   "name": "TabCounter",
+   "permissions": [ "tabs", "notifications" ],
+   "update_url": "http://clients2.google.com/service/update2/crx",
+   "version": "1.1"
+}

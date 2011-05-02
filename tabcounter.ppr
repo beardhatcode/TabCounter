@@ -1,0 +1,62 @@
+[Config]
+Compilator.SaveAll=0
+Compilator.Capture=0
+Compilator.HideOutput=0
+Compilator.LogType=0
+DefaultDir=C:\Users\Robbert\Desktop\tabcounter
+DefaultCPIndex=0
+LogtoEnd=1
+DontOpen=0
+AbsolutePath=0
+FileFormat=0
+ProjectFilesOnly=0
+[Project tree]
+tabcounter
+	+tabcounter
+		icon.png
+		icon_128.png
+		jquery.min.js
+		manifest.json
+		style.css
+		tutorialzine.html
+		script.js
+[Open project files]
+0=script.js
+1=tutorialzine.html
+2=style.css
+3=background.html
+4=manifest.json
+5=..\..\AppData\Local\Google\Chrome\User Data\Default\Extensions\ibokmmioadhomkeikgbfenloopldkcoi\1.0_0\manifest.json
+6=..\..\ProgramFiles\PSPad\TiDyCFG.INI
+7=notification.html
+8=New2.txt
+[Selected Project Files]
+Main=
+Selected=New2.txt
+[script.js]
+TopLine=36
+Caret=1,84
+[tutorialzine.html]
+TopLine=69
+Caret=8,118
+[style.css]
+TopLine=7
+Caret=1,20
+[background.html]
+TopLine=15
+Caret=48,41
+[manifest.json]
+TopLine=1
+Caret=3,11
+[..\..\AppData\Local\Google\Chrome\User Data\Default\Extensions\ibokmmioadhomkeikgbfenloopldkcoi\1.0_0\manifest.json]
+TopLine=1
+Caret=1,2
+[..\..\ProgramFiles\PSPad\TiDyCFG.INI]
+TopLine=27
+Caret=7,27
+[notification.html]
+TopLine=11
+Caret=19,36
+[New2.txt]
+TopLine=1
+Caret=1,23
