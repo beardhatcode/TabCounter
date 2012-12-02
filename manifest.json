@@ -4,7 +4,7 @@
       "default_icon": "icon.png",
       "popup": "main.html"
    },
-   "description": "The tab counting extention that allows you to set goals and shows you tab statistics.",
+   "description": "Tab counting extension that allows you to set goals and shows tab statistics.",
    "icons": {
       "128": "icon_128.png"
    },

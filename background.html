@@ -2,69 +2,66 @@
 <head>
 <script>
 
+	var now=new Date();
+	localStorage.dayNow	= parseInt(now.getTime()/86400000);
+	if(typeof(localStorage.GoalValue)==="undefined"){localStorage.GoalValue="1000"}				
+	if(typeof(localStorage.GoalValueType)==="undefined"){localStorage.GoalValueType="NowOpenedTabs"}			
+	if(typeof(localStorage.TabsTillGoal)==="undefined"){localStorage.TabsTillGoal=100000}
+	if(typeof(localStorage.PercTillGoal)==="undefined"){localStorage.PercTillGoal=100000}
+	if(typeof(localStorage.BeforeOpenedTabs)==="undefined"){localStorage.BeforeOpenedTabs=0;}
+	if(typeof(localStorage.ResetSOpenedTabs)==="undefined"){localStorage.ResetSOpenedTabs=0;}
+	if(typeof(localStorage.ShowInBadgeValue)==="undefined"){localStorage.ShowInBadgeValue="NowOpenedTabs";}
+	if(typeof(localStorage.ShowBageColor)==="undefined"){localStorage.ShowBageColor="136,136,"+"136,255"}
+	if(typeof(localStorage.MaxOpenedTabs)==="undefined"){localStorage.MaxOpenedTabs=0;}	
+	if(typeof(eval("localStorage."+localStorage.ShowInBadgeValue))==="undefined"	){localStorage.ShowInBadgeValue="NowOpenedTabs";}
+	if(localStorage.dayNow!=localStorage.day){localStorage.day=localStorage.dayNow;localStorage.NowOpenedTabs=0;}
+	localStorage.NotificationType="none";
 
+	/*
+				Begin functions
+	*/
 
-			var now=new Date();
-			localStorage.dayNow	= parseInt(now.getTime()/86400000);
-			if(typeof(localStorage.GoalValue)==="undefined"){localStorage.GoalValue="1000"}				
-			if(typeof(localStorage.GoalValueType)==="undefined"){localStorage.GoalValueType="NowOpenedTabs"}			
-			if(typeof(localStorage.TabsTillGoal)==="undefined"){localStorage.TabsTillGoal=100000}
-			if(typeof(localStorage.PercTillGoal)==="undefined"){localStorage.PercTillGoal=100000}
-			if(typeof(localStorage.BeforeOpenedTabs)==="undefined"){localStorage.BeforeOpenedTabs=0;}
-			if(typeof(localStorage.ResetSOpenedTabs)==="undefined"){localStorage.ResetSOpenedTabs=0;}
-			if(typeof(localStorage.ShowInBadgeValue)==="undefined"){localStorage.ShowInBadgeValue="NowOpenedTabs";}
-			if(typeof(localStorage.ShowBageColor)==="undefined"){localStorage.ShowBageColor="136,136,"+"136,255"}
-			if(typeof(localStorage.MaxOpenedTabs)==="undefined"){localStorage.MaxOpenedTabs=0;}	
-			if(typeof(eval("localStorage."+localStorage.ShowInBadgeValue))==="undefined"	){localStorage.ShowInBadgeValue="NowOpenedTabs";}
-			if(localStorage.dayNow!=localStorage.day){localStorage.day=localStorage.dayNow;localStorage.NowOpenedTabs=0;}
-			localStorage.NotificationType="none";
-			/*
-						Begin functions
-			*/
-			
-			function BadgeIt(){
-			eval("chrome.browserAction.setBadgeBackgroundColor({color:["+localStorage.ShowBageColor+"]});");
-				var tekst=eval("if(localStorage."+localStorage.ShowInBadgeValue+"<=9999){chrome.browserAction.setBadgeText({text:localStorage."+localStorage.ShowInBadgeValue+"});}else{chrome.browserAction.setBadgeText({text:''});}");
-					return ("chrome.browserAction.setBadgeBackgroundColor({color:["+localStorage.ShowBageColor+"]});")				
-			}
-			
-			function CalcInfo(){
-					eval("localStorage.TabsTillGoal=parseInt(localStorage.GoalValue)-parseInt(localStorage."+localStorage.GoalValueType+")");					
-					eval("localStorage.PercTillGoal=Math.floor(100*(parseInt(localStorage."+localStorage.GoalValueType+")/parseInt(localStorage.GoalValue)))");	
-			}
-			
-			function Notify(){
-					eval("tmp=parseInt(localStorage.GoalValue)-parseInt(localStorage."+localStorage.GoalValueType+")");
-					if(tmp==0){
-					localStorage.NotificationType="completed_goal";
-					}
-					
-					if(localStorage.NotificationType!="none"){
-				var notification = webkitNotifications.createHTMLNotification('notification.html');
-				notification.show();
-				console.log(notification);
-			 setTimeout(function() {notification.cancel();}, 2.5e3);
-			}
-			}
-			
-			chrome.tabs.onCreated.addListener(function(tab) {
-					localStorage.NowOpenedTabs=(parseInt(localStorage.NowOpenedTabs)+1);
-					localStorage.BeforeOpenedTabs=(parseInt(localStorage.BeforeOpenedTabs)+1);
-					localStorage.ResetSOpenedTabs=(parseInt(localStorage.ResetSOpenedTabs)+1);
-					if(parseInt(localStorage.NowOpenedTabs)>parseInt(localStorage.MaxOpenedTabs)){
-					localStorage.MaxOpenedTabs=localStorage.NowOpenedTabs;
-					localStorage.MaxOpenedDate=now.getDate();
-					localStorage.MaxOpenedDate+="/";
-					localStorage.MaxOpenedDate+=((now.getMonth() + 1) < 10) ? '0'+ (now.getMonth() + 1) : (now.getMonth() + 1);
-					localStorage.MaxOpenedDate+= "/"+ ((now.getYear() < 1000) ? now.getYear() + 1900 : now.getYear()) % 1000 ;
-					}
-					CalcInfo();
-					BadgeIt();
-					Notify();
-			});
-			
+	function BadgeIt(){
+		eval("chrome.browserAction.setBadgeBackgroundColor({color:["+localStorage.ShowBageColor+"]});");
+		var tekst=eval("if(localStorage."+localStorage.ShowInBadgeValue+"<=9999){chrome.browserAction.setBadgeText({text:localStorage."+localStorage.ShowInBadgeValue+"});}else{chrome.browserAction.setBadgeText({text:''});}");
+		return ("chrome.browserAction.setBadgeBackgroundColor({color:["+localStorage.ShowBageColor+"]});")
+	}
+	
+	function CalcInfo(){
+		eval("localStorage.TabsTillGoal=parseInt(localStorage.GoalValue)-parseInt(localStorage."+localStorage.GoalValueType+")");					
+		eval("localStorage.PercTillGoal=Math.floor(100*(parseInt(localStorage."+localStorage.GoalValueType+")/parseInt(localStorage.GoalValue)))");	
+	}
+
+	function Notify(){
+		eval("tmp=parseInt(localStorage.GoalValue)-parseInt(localStorage."+localStorage.GoalValueType+")");
+		if(tmp==0){
+			localStorage.NotificationType="completed_goal";
+		}
+
+		if(localStorage.NotificationType!="none"){
+			var notification = webkitNotifications.createHTMLNotification('notification.html');
+			notification.show();
+			console.log(notification);
+			setTimeout(function() {notification.cancel();}, 2.5e3);
+		}
+	}
+	
+	chrome.tabs.onCreated.addListener(function(tab) {
+		localStorage.NowOpenedTabs=(parseInt(localStorage.NowOpenedTabs)+1);
+		localStorage.BeforeOpenedTabs=(parseInt(localStorage.BeforeOpenedTabs)+1);
+		localStorage.ResetSOpenedTabs=(parseInt(localStorage.ResetSOpenedTabs)+1);
+		if(parseInt(localStorage.NowOpenedTabs)>parseInt(localStorage.MaxOpenedTabs)){
+			localStorage.MaxOpenedTabs=localStorage.NowOpenedTabs;
+			localStorage.MaxOpenedDate=now.getDate();
+			localStorage.MaxOpenedDate+="/";
+			localStorage.MaxOpenedDate+=((now.getMonth() + 1) < 10) ? '0'+ (now.getMonth() + 1) : (now.getMonth() + 1);
+			localStorage.MaxOpenedDate+= "/"+ ((now.getYear() < 1000) ? now.getYear() + 1900 : now.getYear()) % 1000 ;
+		}
+		CalcInfo();
+		BadgeIt();
+		Notify();
+	});
 
 </script>
 </head>
 </html>
-

@@ -1,58 +1,58 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-  <head>
+<head>
   <meta http-equiv="content-type" content="text/html; charset=windows-1250">
   <title></title>
-      <script src="jquery.min.js" type="text/javascript"></script>
+  <script src="jquery.min.js" type="text/javascript"></script>
   <script>
-  $(document).ready(function(){
-  	
-  	var type=localStorage.NotificationType;
-		localStorage.NotificationType="none";
-		
-switch (type)
-{
-case "completed_goal":localStorage.ShowInBadgeValue="NowOpenedTabs";$("#content").html("<b>Goal completed!</b><br/>You opened "+localStorage.GoalValue+" Tabs!");	$("#image").attr("src","img/completed_goal.png");break;
-default: $("#content").html(localStorage.NotificationContent);	$("#image").src("notification_images/"+localStorage.NotificationImage+".png"); break;
-}	
+  $(document).ready(function() {
+  
+    var type=localStorage.NotificationType;
+    localStorage.NotificationType="none";
 
-			
-	});
+    switch (type) {
+      case "completed_goal":localStorage.ShowInBadgeValue="NowOpenedTabs";$("#content").html("<b>Goal completed!</b><br/>You opened "+localStorage.GoalValue+" Tabs!");	$("#image").attr("src","img/completed_goal.png");break;
+      default: $("#content").html(localStorage.NotificationContent);	$("#image").src("notification_images/"+localStorage.NotificationImage+".png"); break;
+    }
+
+
+  });
   </script>
+  
   <style>
-  *{
-	margin:0;
-	padding:0;
-	overflow: hidden;
-	cursor: default;
-}
+  * {
+    margin:0;
+    padding:0;
+    overflow: hidden;
+    cursor: default;
+  }
 
-body{
-	font-size:18px;
-	color:#666;
-	min-width:350px;
-	background-color:#EEE;
-	text-shadow:1px 1px 0 white;
-	font-family:Arial, Helvetica, sans-serif;
-	height: 300px;
-}
+  body {
+    font-size:18px;
+    color:#666;
+    min-width:350px;
+    background-color:#EEE;
+    text-shadow:1px 1px 0 white;
+    font-family:Arial, Helvetica, sans-serif;
+    height: 300px;
+  }
 
-b{
-	font-size: 24px;
-	font-weight: normal;
-	text-shadow: white 0px 1px 1px;
-}
+  b {
+    font-size: 24px;
+    font-weight: normal;
+    text-shadow: white 0px 1px 1px;
+  }
 
-#content{
-text-align: center;
-
-}
+  #content {
+    text-align: center;
+  }
   
   </style>
-  </head>
-  <body>
+</head>
+
+<body>
   <table border="0">
   <TR><td><img id="image" /></td><td id="content">?</td></tr>
   </table>
-  </body>
+</body>
 </html>
