@@ -11,15 +11,30 @@ function TabCounter(){
 	              );
 }
 
+/**
+ * Object that makes strings
+ * @type {Object}  
+ */
+TabCounter.$ = function(id){
+	return document.getElementById(id);
+}
+
+/**
+ * Object that makes strings
+ * @type {Object}  
+ */
 TabCounter.prototype.lang = {
 
 	'words'	: {
 		'totToday'  	: 'tabs opened today',
 		'totReset'  	: 'tabs opened since reset',
 		'totInstall'  	: 'tabs opened since install',
-		'percGoal'  	: '% completed'
 	},
 
+	/**
+	 * Gets information on what to put in header and/or badge
+	 * @param  {Object} data stored information about counts and settings
+	 */
 	'make' : function(data){
 		var	result   = {small:'ERR',full:'Error',sentence:'Error '+data.settings.badge.content+' not found!'},
 			lang     = TabCounter.prototype.lang.words;
@@ -72,7 +87,6 @@ TabCounter.prototype.lang = {
 
 		return result;
 	}
-
 }
 
 /**
@@ -84,7 +98,7 @@ TabCounter.prototype.init = function(data,that){
 	if(typeof data.settings == "undefined"){
 		data.settings = {
 			'badge':{'color':"#FF0000","content":'totToday'},
-			'goal' :{'field':'totToday','value':1000},
+			'goal' :{'field':'totToday','value':100000},
 			'today':(new Date()).toDateString()
 		}
 
@@ -109,7 +123,6 @@ TabCounter.prototype.init = function(data,that){
 
 	//fill badge 
     this.updateBadge(data);
-
 }
 
 /**
@@ -148,15 +161,27 @@ TabCounter.prototype.changeBadgeColor = function(that,newColor) {
 		data.settings.badge.color  = newColor;
 		that.store.set({settings:data.settings},console.log('color changed'));
 	});
-
-
 };
 
-
-TabCounter.prototype.tabOpened = function(that){
+/**
+ * Propperly adds one to each count and keeps reccord of highest tabcount
+ *
+ * Resets the count of today if the daye changed. This is checked by comparing 
+ * dateStrings. Stores new reccords with a formated date. Keeps track of goal
+ * completion
+ * 
+ * @param  {TabCounter} that an instance of Tabcounter
+ */
+TabCounter.prototype.tabOpened = function(that,tab){
+	//START:workaround (http://code.google.com/p/chromium/issues/detail?id=173925)
+		//chrome.tabs.onCreated.addListener fires twice
+		//but tab.id is unique per tab
+		if(TabCounter.tmpTab == tab.id){return;}
+		TabCounter.tmpTab = tab.id
+	//END: workaround
+	
 	that.store.get(['settings','counts'],
 	    function(data){
-
 	    	//check if the day changed
 	    	//Compare DateStrings
 	    	var now = new Date();
@@ -177,12 +202,24 @@ TabCounter.prototype.tabOpened = function(that){
 	  			data.counts.record.date = now.getDate()+" "+now.getMonthName()+" "+now.getFullYear();
 	  		}
 
+	  		if(data.counts[data.settings.goal.field]==data.settings.goal.value)
+	  		{
+  				webkitNotifications.createNotification(
+				  '/img/completed_goal.png', 
+				  'Goal reached!',
+				  'You have opened '+data.settings.goal.value+' tabs!'
+				).show();
+	  		}
 
 			that.store.set({counts:data.counts},function(){console.log('counts++');that.updateBadge(data);});
 	    }
 	);
 }
+TabCounter.tmpTab = 0;
 
+/**
+ * Reserts the count.totReset, called when reset btn is clicked
+ */
 TabCounter.prototype.reset = function(){
 	that = this;
 	that.store.get(['counts'],
@@ -194,26 +231,29 @@ TabCounter.prototype.reset = function(){
 	);
 }
 
+/**
+ * Set data in the popup, must be fired after DOM is ready
+ */
 TabCounter.prototype.view = function() {
 	var that = this;
 	//get data
 	this.store.get(['settings','counts'],
     function(data){
-		document.getElementById('totToday').innerHTML   = data.counts.totToday
-		document.getElementById('totReset').innerHTML   = data.counts.totReset
-		document.getElementById('totInstall').innerHTML = data.counts.totInstall
-		document.getElementById('record').innerHTML   = data.counts.record.value
-		document.getElementById('recordDate').innerHTML= data.counts.record.date
-
+		TabCounter.$('totToday').innerHTML    = data.counts.totToday
+		TabCounter.$('totReset').innerHTML    = data.counts.totReset
+		TabCounter.$('totInstall').innerHTML  = data.counts.totInstall
+		TabCounter.$('record').innerHTML      = data.counts.record.value
+		TabCounter.$('recordDate').innerHTML  = data.counts.record.date
+		
 		//get header data
-		var contents = that.lang.make(data);
-		document.getElementById('HeaderValue').innerHTML = contents.full;
-		document.getElementById('HeaderType').innerHTML = contents.sentence;
-
-			//set settings
-		document.getElementById("goalValue").value    =  data.settings.goal.value;
-		document.getElementById("goalField").value    =  data.settings.goal.field;
-		document.getElementById("badgeContent").value = data.settings.badge.content;
+		var contents= that.lang.make(data);
+		TabCounter.$('HeaderValue').innerHTML = contents.full;
+		TabCounter.$('HeaderType').innerHTML  = contents.sentence;
+		
+		//set settings
+		TabCounter.$("goalValue").value       =  data.settings.goal.value;
+		TabCounter.$("goalField").value       =  data.settings.goal.field;
+		TabCounter.$("badgeContent").value    = data.settings.badge.content;
 
     });
 
@@ -227,19 +267,17 @@ TabCounter.prototype.view = function() {
 		for(var i in windows){nowTabs += windows[i].tabs.length}
 
 
-		document.getElementById('nowTabs').innerHTML = nowTabs;
-		document.getElementById('nowWind').innerHTML = nowWind;
+		TabCounter.$('nowTabs').innerHTML = nowTabs;
+		TabCounter.$('nowWind').innerHTML = nowWind;
 	});
-
-
-
-
 };
 
+
+//Create new instance of tabcounter (global)
 tc = new TabCounter();
 
-
-chrome.tabs.onCreated.addListener(function(tab){tc.tabOpened(tc);});
+//Lisen to opeing tabs
+chrome.tabs.onCreated.addListener(function(tab){tc.tabOpened(tc,tab);});
 
 
 

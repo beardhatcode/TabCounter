@@ -12,6 +12,7 @@
    "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDEujs8D24Eq/zRg4odd04vSTNcbJ7s5R7VgJGAgrkIgmjMhm+jfAbXun8sxlM4cG8FQwpGyqLrJxHQXzQicDT+YZYMhDpl1wLlCUBzBqtwI0FDG9aUaMlzTd8u0WlPqCSjmsOSGCfaRCiaorFkKO/HYryeegDJSy7AsaThz8d2TwIDAQAB",
    "name": "TabCounter",
    "permissions": [ "tabs", "notifications", "storage" ],
+   "web_accessible_resources": ["img/completed_goal.png"],
    "update_url": "http://clients2.google.com/service/update2/crx",
    "version": "1.2",
    "manifest_version": 2

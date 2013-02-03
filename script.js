@@ -5,7 +5,7 @@ function initVieuw() {
 	/**
 	 * Bind goal values
 	 */
-	document.getElementById("goalValue").addEventListener('change',
+	TabCounter.$("goalValue").addEventListener('keyup',
 	function(e)
 	{
 		var newGoal = e.target.value;
@@ -18,37 +18,37 @@ function initVieuw() {
 		tc.store.get(['settings'],
 	    function(data){
 	    	data.settings.goal.value = newParsed;
-	  		that.store.set({settings:data.settings},console.log('goalValue changed'));
+	  		that.store.set({settings:data.settings},function(){});
 	    });
 	}
 	);
 
 
-	document.getElementById("goalField").addEventListener('change',
+	TabCounter.$("goalField").addEventListener('change',
 	function(e)
 	{
 
 		var newGoalField = e.target.value;
 
-		tc.store.get(['settings'],
+		tc.store.get(['settings','counts'],
 	    function(data){
 	    	data.settings.goal.field = newGoalField;
-	  		that.store.set({settings:data.settings},console.log('gaolField changed'));
+	  		that.store.set({settings:data.settings},tc.updateBadge(data));
 	    });
 	}
 	);
 
 
-	document.getElementById("badgeContent").addEventListener('change',
+	TabCounter.$("badgeContent").addEventListener('change',
 	function(e)
 	{
 
 		var newContent = e.target.value;
 
-		tc.store.get(['settings'],
+		tc.store.get(['settings','counts'],
 	    function(data){
 	    	data.settings.badge.content = newContent;
-	  		that.store.set({settings:data.settings},console.log('badege.content changed'));
+	  		that.store.set({settings:data.settings},tc.updateBadge(data));
 	    });
 	}
 	);
@@ -58,7 +58,7 @@ function initVieuw() {
 	 * Color picker
 	 */
 
-	var	canvas =document.getElementById("colorPicker"),
+	var	canvas =TabCounter.$("colorPicker"),
 		ctx    =canvas.getContext("2d"),
 		grd    =ctx.createLinearGradient(0,0,canvas.width,0);
 
@@ -86,9 +86,10 @@ function initVieuw() {
 		}
 		);
 
-		document.getElementById("resetBtn").addEventListener('click',function(){
+		TabCounter.$("resetBtn").addEventListener('click',function(){
 			tc.reset();
 		});
+
 
 }
 
