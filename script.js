@@ -33,7 +33,7 @@ function initVieuw() {
 		tc.store.get(['settings','counts'],
 	    function(data){
 	    	data.settings.goal.field = newGoalField;
-	  		that.store.set({settings:data.settings},tc.updateBadge(data));
+	  		that.store.set({settings:data.settings},function(){tc.updateBadge(data)});
 	    });
 	}
 	);
@@ -48,7 +48,7 @@ function initVieuw() {
 		tc.store.get(['settings','counts'],
 	    function(data){
 	    	data.settings.badge.content = newContent;
-	  		that.store.set({settings:data.settings},tc.updateBadge(data));
+	  		that.store.set({settings:data.settings},function(){tc.updateBadge(data)});
 	    });
 	}
 	);
